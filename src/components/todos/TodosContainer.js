@@ -4,9 +4,13 @@ import Todo from './Todo';
 
 class TodosContainer extends Component {
 
-  renderTodos = () => this.props.todos.map((todo, id) => <Todo key={id} text={todo} />)
+  renderTodos = () => {
+    console.log(this.props.todos);
+    return this.props.todos.map(todo => <Todo delete={this.props.delete} key={todo.id} todo={todo} />)
+  }
   
   render() {
+    console.log('todos', this.renderTodos())
     return(
       <ol>
         {this.renderTodos()}
@@ -20,5 +24,11 @@ class TodosContainer extends Component {
       todos: state.todos
     }
   }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      delete: (todoText) => dispatch({ type: "DELETE_TODO", payload: todoText }),
+    };
+  };
   
-  export default connect(mapStateToProps)(TodosContainer);
+export default connect(mapStateToProps,mapDispatchToProps)(TodosContainer);
